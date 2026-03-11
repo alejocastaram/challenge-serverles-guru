@@ -13,7 +13,8 @@ public final class FootballMatchDynamoMapper {
         FootballMatchDynamoEntity entity = new FootballMatchDynamoEntity();
 
         entity.setPk(UUID.randomUUID().toString());
-        entity.setSk(footballMatch.localTeam() + "#" + footballMatch.awayTeam() + "#" + footballMatch.matchDate());
+        entity.setSk(footballMatch.localTeam() + "#" + footballMatch.awayTeam() + "#" +
+                footballMatch.matchDate().toLocalDate());
 
         entity.setLocalTeam(footballMatch.localTeam());
         entity.setLocalTeamImageUrl(footballMatch.localTeamImageUrl());

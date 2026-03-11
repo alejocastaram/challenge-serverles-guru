@@ -1,10 +1,8 @@
 package com.alejandrocastaneda.serverles_guru_challenge.infrastructure.dto;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+
+import java.io.Serializable;
 
 public class CreateMatchDTO implements Serializable {
     @NotBlank
@@ -18,9 +16,6 @@ public class CreateMatchDTO implements Serializable {
 
     @NotBlank
     private String awayTeamImageUrl;
-
-    @NotNull
-    private LocalDateTime matchDate;
 
     @NotBlank
     private String stadium;
@@ -65,11 +60,4 @@ public class CreateMatchDTO implements Serializable {
         this.stadium = stadium;
     }
 
-    public LocalDateTime getMatchDate() {
-        return matchDate;
-    }
-
-    public void setMatchDate(LocalDateTime matchDate) {
-        this.matchDate = matchDate;
-    }
 }

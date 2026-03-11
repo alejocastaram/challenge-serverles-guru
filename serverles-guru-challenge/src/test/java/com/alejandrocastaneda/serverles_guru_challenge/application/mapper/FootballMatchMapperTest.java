@@ -19,7 +19,6 @@ class FootballMatchMapperTest {
         dto.setAwayTeam("Away FC");
         dto.setAwayTeamImageUrl("http://away.png");
         dto.setStadium("My Stadium");
-        dto.setMatchDate(LocalDateTime.of(2020, 1, 1, 12, 0)); // should be ignored
 
         LocalDateTime before = LocalDateTime.now().minusSeconds(5);
 
