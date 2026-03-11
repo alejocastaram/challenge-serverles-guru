@@ -1,0 +1,7 @@
+spring:
+  docker:
+    compose:
+      enabled: false
+  devtools:
+    restart:
+      enabled: false

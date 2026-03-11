@@ -1,3 +1,9 @@
 spring:
   application:
     name: serverles-guru-challenge
+  docker:
+    compose:
+      file: serverles-guru-challenge/compose.yaml
+  devtools:
+    restart:
+      enabled: false
