@@ -1,0 +1,75 @@
+package com.alejandrocastaneda.serverles_guru_challenge.infrastructure.dto;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+public class CreateMatchDTO implements Serializable {
+    @NotBlank
+    private String localTeam;
+
+    @NotBlank
+    private String localTeamImageUrl;
+
+    @NotBlank
+    private String awayTeam;
+
+    @NotBlank
+    private String awayTeamImageUrl;
+
+    @NotNull
+    private LocalDateTime matchDate;
+
+    @NotBlank
+    private String stadium;
+
+    public String getLocalTeam() {
+        return localTeam;
+    }
+
+    public void setLocalTeam(String localTeam) {
+        this.localTeam = localTeam;
+    }
+
+    public String getLocalTeamImageUrl() {
+        return localTeamImageUrl;
+    }
+
+    public void setLocalTeamImageUrl(String localTeamImageUrl) {
+        this.localTeamImageUrl = localTeamImageUrl;
+    }
+
+    public String getAwayTeamImageUrl() {
+        return awayTeamImageUrl;
+    }
+
+    public void setAwayTeamImageUrl(String awayTeamImageUrl) {
+        this.awayTeamImageUrl = awayTeamImageUrl;
+    }
+
+    public String getAwayTeam() {
+        return awayTeam;
+    }
+
+    public void setAwayTeam(String awayTeam) {
+        this.awayTeam = awayTeam;
+    }
+
+    public String getStadium() {
+        return stadium;
+    }
+
+    public void setStadium(String stadium) {
+        this.stadium = stadium;
+    }
+
+    public LocalDateTime getMatchDate() {
+        return matchDate;
+    }
+
+    public void setMatchDate(LocalDateTime matchDate) {
+        this.matchDate = matchDate;
+    }
+}
