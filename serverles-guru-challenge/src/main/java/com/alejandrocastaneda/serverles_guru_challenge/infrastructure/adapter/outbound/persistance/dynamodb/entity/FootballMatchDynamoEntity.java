@@ -2,9 +2,7 @@ package com.alejandrocastaneda.serverles_guru_challenge.infrastructure.adapter.o
 
 import java.time.LocalDateTime;
 
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSortKey;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.*;
 
 @DynamoDbBean
 public class FootballMatchDynamoEntity {
@@ -29,6 +27,7 @@ public class FootballMatchDynamoEntity {
     }
 
     @DynamoDbSortKey
+    @DynamoDbSecondaryPartitionKey(indexNames = "matchId-index")
     public String getSk() {
         return sk;
     }
