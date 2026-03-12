@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import com.alejandrocastaneda.serverles_guru_challenge.domain.entity.FootballMatch;
 import com.alejandrocastaneda.serverles_guru_challenge.infrastructure.dto.CreateMatchDTO;
+import com.alejandrocastaneda.serverles_guru_challenge.infrastructure.dto.FootballMatchDTO;
 
 public final class FootballMatchMapper {
 
@@ -11,7 +12,7 @@ public final class FootballMatchMapper {
         //empty because is a mapper
     }
 
-    public static FootballMatch toDomain(CreateMatchDTO dto) {
+    public static FootballMatch toDomain (CreateMatchDTO dto) {
         return new FootballMatch(
                 dto.getLocalTeam(),
                 dto.getLocalTeamImageUrl(),
@@ -22,6 +23,20 @@ public final class FootballMatchMapper {
                 0,
                 0
         );
+    }
+
+    public static FootballMatchDTO toDTO (FootballMatch footballMatch) {
+        FootballMatchDTO footballMatchDTO = new FootballMatchDTO();
+        footballMatchDTO.setMatchDate(footballMatch.matchDate());
+        footballMatchDTO.setAwayScore(footballMatch.awayScore());
+        footballMatchDTO.setAwayTeam(footballMatch.awayTeam());
+        footballMatchDTO.setStadium(footballMatch.stadium());
+        footballMatchDTO.setLocalScore(footballMatch.localScore());
+        footballMatchDTO.setLocalTeam(footballMatch.localTeam());
+        footballMatchDTO.setAwayTeamImageUrl(footballMatch.awayTeamImageUrl());
+        footballMatchDTO.setLocalTeamImageUrl(footballMatch.localTeamImageUrl());
+
+        return footballMatchDTO;
     }
 }
 
