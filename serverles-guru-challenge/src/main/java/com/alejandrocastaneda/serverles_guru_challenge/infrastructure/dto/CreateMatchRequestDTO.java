@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 
 import java.io.Serializable;
 
-public class CreateMatchDTO implements Serializable {
+public class CreateMatchRequestDTO implements Serializable {
     @NotBlank
     private String localTeam;
 

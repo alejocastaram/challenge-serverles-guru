@@ -2,7 +2,7 @@ package com.alejandrocastaneda.serverles_guru_challenge.application.port.in.usec
 
 import com.alejandrocastaneda.serverles_guru_challenge.application.mapper.FootballMatchMapper;
 import com.alejandrocastaneda.serverles_guru_challenge.application.port.out.repository.FootballMatchRepository;
-import com.alejandrocastaneda.serverles_guru_challenge.infrastructure.dto.CreateMatchDTO;
+import com.alejandrocastaneda.serverles_guru_challenge.infrastructure.dto.CreateMatchRequestDTO;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -14,8 +14,8 @@ public class CreateFootballMatchUseCase {
         this.footballMatchRepository = footballMatchRepository;
     }
 
-    public Mono<Void> execute(CreateMatchDTO createMatchDTO) {
-        return Mono.fromSupplier(() -> FootballMatchMapper.toDomain(createMatchDTO))
+    public Mono<Void> execute(CreateMatchRequestDTO createMatchRequestDTO) {
+        return Mono.fromSupplier(() -> FootballMatchMapper.toDomain(createMatchRequestDTO))
                 .flatMap(footballMatchRepository::create);
     }
 }
