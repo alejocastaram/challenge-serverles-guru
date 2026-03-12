@@ -8,4 +8,6 @@ public interface FootballMatchRepository {
     Mono<Void> create (FootballMatch footballMatch);
 
     Mono<FootballMatch> get (String localTeam, String awayTeam, String matchDate);
+
+    Mono<FootballMatch> updateScore (String localTeam, String awayTeam, String matchDate, String scorerTeam);
 }

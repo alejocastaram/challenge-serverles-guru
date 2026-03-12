@@ -1,5 +1,6 @@
 package com.alejandrocastaneda.serverles_guru_challenge.infrastructure.adapter.inbound.exceptionhandler;
 
+import com.alejandrocastaneda.serverles_guru_challenge.application.exception.BusinessException;
 import com.alejandrocastaneda.serverles_guru_challenge.application.exception.FootballMatchNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,5 +16,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(ex.getMessage());
+    }
+
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<String> handleBusinessException(BusinessException exception) {
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(exception.getMessage());
     }
 }
