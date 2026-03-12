@@ -1,13 +1,9 @@
-package com.alejandrocastaneda.serverles_guru_challenge.infrastructure.adapter.outbound.persistance.dynamodb.entity;
+package com.alejandrocastaneda.serverles_guru_challenge.infrastructure.dto;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.*;
-
-@DynamoDbBean
-public class FootballMatchDynamoEntity {
-    private String pk;
-    private String sk;
+public class FootballMatchDTO implements Serializable {
     private String localTeam;
     private String localTeamImageUrl;
     private String awayTeam;
@@ -16,25 +12,6 @@ public class FootballMatchDynamoEntity {
     private String stadium;
     private int localScore;
     private int awayScore;
-
-    @DynamoDbPartitionKey
-    public String getPk() {
-        return pk;
-    }
-
-    public void setPk(String pk) {
-        this.pk = pk;
-    }
-
-    @DynamoDbSortKey
-    @DynamoDbSecondaryPartitionKey(indexNames = "matchId-index")
-    public String getSk() {
-        return sk;
-    }
-
-    public void setSk(String sk) {
-        this.sk = sk;
-    }
 
     public String getLocalTeam() {
         return localTeam;

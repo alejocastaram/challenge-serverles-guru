@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import com.alejandrocastaneda.serverles_guru_challenge.domain.entity.FootballMatch;
 import com.alejandrocastaneda.serverles_guru_challenge.infrastructure.dto.CreateMatchDTO;
+import com.alejandrocastaneda.serverles_guru_challenge.infrastructure.dto.FootballMatchDTO;
 
 class FootballMatchMapperTest {
 
@@ -37,6 +38,31 @@ class FootballMatchMapperTest {
 
         assertThat(result.matchDate()).isAfterOrEqualTo(before);
         assertThat(result.matchDate()).isBeforeOrEqualTo(after);
+    }
+
+    @Test
+    void shouldMapDomainToDto() {
+        FootballMatch match = new FootballMatch(
+                "Local FC",
+                "http://local.png",
+                "Away FC",
+                "http://away.png",
+                LocalDateTime.of(2024, 1, 1, 20, 0),
+                "My Stadium",
+                3,
+                2
+        );
+
+        FootballMatchDTO dto = FootballMatchMapper.toDTO(match);
+
+        assertThat(dto.getLocalTeam()).isEqualTo("Local FC");
+        assertThat(dto.getLocalTeamImageUrl()).isEqualTo("http://local.png");
+        assertThat(dto.getAwayTeam()).isEqualTo("Away FC");
+        assertThat(dto.getAwayTeamImageUrl()).isEqualTo("http://away.png");
+        assertThat(dto.getStadium()).isEqualTo("My Stadium");
+        assertThat(dto.getLocalScore()).isEqualTo(3);
+        assertThat(dto.getAwayScore()).isEqualTo(2);
+        assertThat(dto.getMatchDate()).isEqualTo(LocalDateTime.of(2024, 1, 1, 20, 0));
     }
 }
 
