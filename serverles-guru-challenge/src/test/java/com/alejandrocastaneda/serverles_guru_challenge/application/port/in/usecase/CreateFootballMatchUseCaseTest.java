@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import com.alejandrocastaneda.serverles_guru_challenge.application.port.out.repository.FootballMatchRepository;
 import com.alejandrocastaneda.serverles_guru_challenge.domain.entity.FootballMatch;
-import com.alejandrocastaneda.serverles_guru_challenge.infrastructure.dto.CreateMatchDTO;
+import com.alejandrocastaneda.serverles_guru_challenge.infrastructure.dto.CreateMatchRequestDTO;
 
 import reactor.core.publisher.Mono;
 
@@ -39,7 +39,7 @@ class CreateFootballMatchUseCaseTest {
                     return Mono.empty();
                 });
 
-        CreateMatchDTO dto = getCreateMatchDtoExample();
+        CreateMatchRequestDTO dto = getCreateMatchDtoExample();
 
         useCase.execute(dto).block();
 
@@ -54,8 +54,8 @@ class CreateFootballMatchUseCaseTest {
         assertThat(saved.awayScore()).isZero();
     }
 
-    private CreateMatchDTO getCreateMatchDtoExample() {
-        CreateMatchDTO dto = new CreateMatchDTO();
+    private CreateMatchRequestDTO getCreateMatchDtoExample() {
+        CreateMatchRequestDTO dto = new CreateMatchRequestDTO();
         dto.setLocalTeam("Local FC");
         dto.setLocalTeamImageUrl("http://local.png");
         dto.setAwayTeam("Away FC");

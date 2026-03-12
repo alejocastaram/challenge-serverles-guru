@@ -2,8 +2,10 @@ package com.alejandrocastaneda.serverles_guru_challenge.infrastructure.adapter.i
 
 import com.alejandrocastaneda.serverles_guru_challenge.application.port.in.usecase.CreateFootballMatchUseCase;
 import com.alejandrocastaneda.serverles_guru_challenge.application.port.in.usecase.GetFootballMatchUseCase;
-import com.alejandrocastaneda.serverles_guru_challenge.infrastructure.dto.CreateMatchDTO;
+import com.alejandrocastaneda.serverles_guru_challenge.application.port.in.usecase.UpdateScoreUseCase;
+import com.alejandrocastaneda.serverles_guru_challenge.infrastructure.dto.CreateMatchRequestDTO;
 import com.alejandrocastaneda.serverles_guru_challenge.infrastructure.dto.FootballMatchDTO;
+import com.alejandrocastaneda.serverles_guru_challenge.infrastructure.dto.UpdateScoreRequestDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -14,21 +16,28 @@ import reactor.core.publisher.Mono;
 public class FootballMatchController {
     private final CreateFootballMatchUseCase createFootballMatchUseCase;
     private final GetFootballMatchUseCase getFootballMatchUseCase;
+    private final UpdateScoreUseCase updateScoreUseCase;
 
-    public FootballMatchController(CreateFootballMatchUseCase createFootballMatchUseCase, GetFootballMatchUseCase getFootballMatchUseCase) {
+    public FootballMatchController(CreateFootballMatchUseCase createFootballMatchUseCase, GetFootballMatchUseCase getFootballMatchUseCase, UpdateScoreUseCase updateScoreUseCase) {
         this.createFootballMatchUseCase = createFootballMatchUseCase;
         this.getFootballMatchUseCase = getFootballMatchUseCase;
+        this.updateScoreUseCase = updateScoreUseCase;
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Mono<Void> createMatch(@Valid @RequestBody CreateMatchDTO createMatchDTO) {
-        return createFootballMatchUseCase.execute(createMatchDTO);
+    public Mono<Void> createMatch(@Valid @RequestBody CreateMatchRequestDTO createMatchRequestDTO) {
+        return createFootballMatchUseCase.execute(createMatchRequestDTO);
     }
 
     @GetMapping("/{localTeam}/{awayTeam}/{matchDate}")
     public Mono<FootballMatchDTO> getMatch(@PathVariable String localTeam, @PathVariable String awayTeam,
                                            @PathVariable String matchDate) {
         return getFootballMatchUseCase.execute(localTeam, awayTeam, matchDate);
+    }
+
+    @PutMapping
+    public Mono<FootballMatchDTO> updateScore(@Valid @RequestBody UpdateScoreRequestDTO updateScoreRequestDTO) {
+        return updateScoreUseCase.execute(updateScoreRequestDTO);
     }
 }

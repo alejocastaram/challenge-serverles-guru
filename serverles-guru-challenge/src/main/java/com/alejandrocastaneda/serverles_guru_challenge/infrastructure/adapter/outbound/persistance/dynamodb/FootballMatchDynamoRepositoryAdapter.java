@@ -35,13 +35,18 @@ public class FootballMatchDynamoRepositoryAdapter implements FootballMatchReposi
 
     @Override
     public Mono<FootballMatch> get (String localTeam, String awayTeam, String matchDate) {
+
+        return getDynamoEntity(localTeam, awayTeam, matchDate)
+                .map(FootballMatchDynamoMapper::toDomain);
+    }
+
+    private Mono<FootballMatchDynamoEntity> getDynamoEntity(String localTeam, String awayTeam, String matchDate) {
         DynamoDbAsyncIndex<FootballMatchDynamoEntity> index =
                 table.index(INDEX);
         QueryConditional query = getQuery(localTeam, awayTeam, matchDate);
 
         return Flux.from(index.query(query))
                 .flatMapIterable(Page::items)
-                .map(FootballMatchDynamoMapper::toDomain)
                 .next();
     }
 
@@ -52,6 +57,25 @@ public class FootballMatchDynamoRepositoryAdapter implements FootballMatchReposi
                 .keyEqualTo(Key.builder()
                         .partitionValue(sk)
                         .build());
+    }
+
+    @Override
+    public Mono<FootballMatch> updateScore(String localTeam, String awayTeam, String matchDate, String scorerTeam) {
+        return getDynamoEntity(localTeam, awayTeam, matchDate)
+                .map(entity -> {
+                    setScoreByTeam(scorerTeam, entity);
+                    return entity;
+                })
+                .flatMap(entity -> Mono.fromFuture(table.putItem(entity)).thenReturn(entity))
+                .map(FootballMatchDynamoMapper::toDomain);
+    }
+
+    private void setScoreByTeam(String scorerTeam, FootballMatchDynamoEntity footballMatchDynamoEntity) {
+         if(scorerTeam.equals(footballMatchDynamoEntity.getLocalTeam())) {
+             footballMatchDynamoEntity.setLocalScore(footballMatchDynamoEntity.getLocalScore() + 1);
+         } else {
+             footballMatchDynamoEntity.setAwayScore(footballMatchDynamoEntity.getAwayScore() + 1);
+         }
     }
 
 }

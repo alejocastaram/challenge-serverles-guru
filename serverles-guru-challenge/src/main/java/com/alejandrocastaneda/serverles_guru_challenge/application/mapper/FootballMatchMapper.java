@@ -3,7 +3,7 @@ package com.alejandrocastaneda.serverles_guru_challenge.application.mapper;
 import java.time.LocalDateTime;
 
 import com.alejandrocastaneda.serverles_guru_challenge.domain.entity.FootballMatch;
-import com.alejandrocastaneda.serverles_guru_challenge.infrastructure.dto.CreateMatchDTO;
+import com.alejandrocastaneda.serverles_guru_challenge.infrastructure.dto.CreateMatchRequestDTO;
 import com.alejandrocastaneda.serverles_guru_challenge.infrastructure.dto.FootballMatchDTO;
 
 public final class FootballMatchMapper {
@@ -12,7 +12,7 @@ public final class FootballMatchMapper {
         //empty because is a mapper
     }
 
-    public static FootballMatch toDomain (CreateMatchDTO dto) {
+    public static FootballMatch toDomain (CreateMatchRequestDTO dto) {
         return new FootballMatch(
                 dto.getLocalTeam(),
                 dto.getLocalTeamImageUrl(),

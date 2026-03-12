@@ -7,14 +7,14 @@ import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 
 import com.alejandrocastaneda.serverles_guru_challenge.domain.entity.FootballMatch;
-import com.alejandrocastaneda.serverles_guru_challenge.infrastructure.dto.CreateMatchDTO;
+import com.alejandrocastaneda.serverles_guru_challenge.infrastructure.dto.CreateMatchRequestDTO;
 import com.alejandrocastaneda.serverles_guru_challenge.infrastructure.dto.FootballMatchDTO;
 
 class FootballMatchMapperTest {
 
     @Test
     void shouldMapCreateMatchDtoToDomainWithDefaults() {
-        CreateMatchDTO dto = new CreateMatchDTO();
+        CreateMatchRequestDTO dto = new CreateMatchRequestDTO();
         dto.setLocalTeam("Local FC");
         dto.setLocalTeamImageUrl("http://local.png");
         dto.setAwayTeam("Away FC");
