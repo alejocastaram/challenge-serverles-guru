@@ -1,4 +1,4 @@
-package com.alejandrocastaneda.serverles_guru_challenge.infrastructure.adapter.outbound.persistance.dynamodb.util;
+package com.alejandrocastaneda.serverles_guru_challenge.infrastructure.adapter.util;
 
 public final class SKGenerator {
 

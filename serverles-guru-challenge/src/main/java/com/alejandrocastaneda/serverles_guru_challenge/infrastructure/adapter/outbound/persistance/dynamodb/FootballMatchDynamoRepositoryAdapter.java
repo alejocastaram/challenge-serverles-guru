@@ -4,7 +4,7 @@ import com.alejandrocastaneda.serverles_guru_challenge.application.port.out.repo
 import com.alejandrocastaneda.serverles_guru_challenge.domain.entity.FootballMatch;
 import com.alejandrocastaneda.serverles_guru_challenge.infrastructure.adapter.outbound.persistance.dynamodb.entity.FootballMatchDynamoEntity;
 import com.alejandrocastaneda.serverles_guru_challenge.infrastructure.adapter.outbound.persistance.dynamodb.mapper.FootballMatchDynamoMapper;
-import com.alejandrocastaneda.serverles_guru_challenge.infrastructure.adapter.outbound.persistance.dynamodb.util.SKGenerator;
+import com.alejandrocastaneda.serverles_guru_challenge.infrastructure.adapter.util.SKGenerator;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
