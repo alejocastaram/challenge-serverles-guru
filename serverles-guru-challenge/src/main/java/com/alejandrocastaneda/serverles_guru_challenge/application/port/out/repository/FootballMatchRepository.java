@@ -10,4 +10,6 @@ public interface FootballMatchRepository {
     Mono<FootballMatch> get (String localTeam, String awayTeam, String matchDate);
 
     Mono<FootballMatch> updateScore (String localTeam, String awayTeam, String matchDate, String scorerTeam);
+
+    Mono<FootballMatch> delete(String localTeam, String awayTeam, String matchDate);
 }
