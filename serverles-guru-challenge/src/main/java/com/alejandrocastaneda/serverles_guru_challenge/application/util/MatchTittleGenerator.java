@@ -1,8 +1,8 @@
-package com.alejandrocastaneda.serverles_guru_challenge.infrastructure.adapter.outbound.persistance.dynamodb.util;
+package com.alejandrocastaneda.serverles_guru_challenge.application.util;
 
-public final class SKGenerator {
+public final class MatchTittleGenerator {
 
-    private SKGenerator () {
+    private MatchTittleGenerator() {
         //empty because is an utility class
     }
 
@@ -12,7 +12,7 @@ public final class SKGenerator {
         return localTeamWithoutBlankSpaces +
                 "-VS-" +
                 awayTeamWithoutBlankSpaces +
-                "#" +
+                "-AT-" +
                 matchDate;
     }
 }
