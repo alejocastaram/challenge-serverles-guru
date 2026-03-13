@@ -36,18 +36,21 @@ jobs:
 
       - name: Dar permisos a gradlew
         run: chmod +x gradlew
+        working-directory: serverles-guru-challenge
 
       - name: Compilar y ejecutar tests
         run: ./gradlew clean test
+        working-directory: serverles-guru-challenge
 
       - name: Generar cobertura
         run: ./gradlew jacocoTestReport
+        working-directory: serverles-guru-challenge
 
       - name: Subir reporte de cobertura
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: build/reports/jacoco
+          path: serverles-guru-challenge/build/reports/jacoco
 
   master-pipeline:
     if: github.ref == 'refs/heads/master'
@@ -73,15 +76,18 @@ jobs:
 
       - name: Permisos gradlew
         run: chmod +x gradlew
+        working-directory: serverles-guru-challenge
 
       - name: Build completo
         run: ./gradlew clean build
+        working-directory: serverles-guru-challenge
 
       - name: Generar cobertura
         run: ./gradlew jacocoTestReport
+        working-directory: serverles-guru-challenge
 
       - name: Guardar artefacto
         uses: actions/upload-artifact@v4
         with:
           name: app-jar
-          path: build/libs/*.jar
+          path: serverles-guru-challenge/build/libs/*.jar
