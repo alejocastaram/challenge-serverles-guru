@@ -14,6 +14,7 @@ class FootballMatchDynamoMapperTest {
     @Test
     void shouldMapDomainToDynamoEntity() {
         FootballMatch match = new FootballMatch(
+                "Local-FC-VS-Away-FC-AT-2024-01-01",
                 "Local FC",
                 "http://local.png",
                 "Away FC",
@@ -27,7 +28,7 @@ class FootballMatchDynamoMapperTest {
         FootballMatchDynamoEntity entity = FootballMatchDynamoMapper.toDynamoEntity(match);
 
         assertThat(entity.getPk()).isNotNull().isNotEmpty();
-        assertThat(entity.getSk()).isEqualTo("Local-FC-VS-Away-FC#2024-01-01");
+        assertThat(entity.getSk()).isEqualTo("Local-FC-VS-Away-FC-AT-2024-01-01");
 
         assertThat(entity.getLocalTeam()).isEqualTo("Local FC");
         assertThat(entity.getLocalTeamImageUrl()).isEqualTo("http://local.png");
