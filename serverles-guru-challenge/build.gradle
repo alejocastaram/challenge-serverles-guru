@@ -11,7 +11,7 @@ description = 'This is a CRUD application for servers guru technical challenge'
 
 java {
 	toolchain {
-		languageVersion = JavaLanguageVersion.of(25)
+		languageVersion = JavaLanguageVersion.of(21)
 	}
 }
 
@@ -20,7 +20,7 @@ repositories {
 }
 
 jacoco {
-	toolVersion = "0.8.10"
+	toolVersion = "0.8.12"
 }
 
 dependencies {
