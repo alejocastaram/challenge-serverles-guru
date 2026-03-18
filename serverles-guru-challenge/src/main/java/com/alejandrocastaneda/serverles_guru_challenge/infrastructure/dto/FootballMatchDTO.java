@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public class FootballMatchDTO implements Serializable {
+    private String matchTittle;
     private String localTeam;
     private String localTeamImageUrl;
     private String awayTeam;
@@ -12,6 +13,14 @@ public class FootballMatchDTO implements Serializable {
     private String stadium;
     private int localScore;
     private int awayScore;
+
+    public String getMatchTittle() {
+        return matchTittle;
+    }
+
+    public void setMatchTittle(String matchTittle) {
+        this.matchTittle = matchTittle;
+    }
 
     public String getLocalTeam() {
         return localTeam;

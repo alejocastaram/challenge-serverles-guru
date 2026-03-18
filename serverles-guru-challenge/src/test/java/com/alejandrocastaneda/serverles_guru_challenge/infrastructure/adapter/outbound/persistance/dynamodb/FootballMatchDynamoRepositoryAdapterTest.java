@@ -58,6 +58,7 @@ class FootballMatchDynamoRepositoryAdapterTest {
                 .thenReturn(CompletableFuture.completedFuture(null));
 
         FootballMatch match = new FootballMatch(
+                "Local-FC-VS-Away-FC-AT-2024-01-01",
                 "Local FC",
                 "http://local.png",
                 "Away FC",

@@ -4,7 +4,7 @@ import com.alejandrocastaneda.serverles_guru_challenge.application.port.out.repo
 import com.alejandrocastaneda.serverles_guru_challenge.domain.entity.FootballMatch;
 import com.alejandrocastaneda.serverles_guru_challenge.infrastructure.adapter.outbound.persistance.dynamodb.entity.FootballMatchDynamoEntity;
 import com.alejandrocastaneda.serverles_guru_challenge.infrastructure.adapter.outbound.persistance.dynamodb.mapper.FootballMatchDynamoMapper;
-import com.alejandrocastaneda.serverles_guru_challenge.infrastructure.adapter.outbound.persistance.dynamodb.util.SKGenerator;
+import com.alejandrocastaneda.serverles_guru_challenge.application.util.MatchTittleGenerator;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -51,7 +51,7 @@ public class FootballMatchDynamoRepositoryAdapter implements FootballMatchReposi
     }
 
     private  QueryConditional getQuery (String localTeam, String awayTeam, String matchDate) {
-        String sk = SKGenerator.generate(localTeam, awayTeam, matchDate);
+        String sk = MatchTittleGenerator.generate(localTeam, awayTeam, matchDate);
 
         return QueryConditional
                 .keyEqualTo(Key.builder()
@@ -76,6 +76,17 @@ public class FootballMatchDynamoRepositoryAdapter implements FootballMatchReposi
          } else {
              footballMatchDynamoEntity.setAwayScore(footballMatchDynamoEntity.getAwayScore() + 1);
          }
+    }
+
+    @Override
+    public Mono<FootballMatch> delete(String localTeam, String awayTeam, String matchDate) {
+        return getDynamoEntity(localTeam, awayTeam, matchDate)
+                .map(footballMatchDynamoEntity -> Key.builder()
+                        .partitionValue(footballMatchDynamoEntity.getPk())
+                        .sortValue(footballMatchDynamoEntity.getSk())
+                        .build())
+                .flatMap(key -> Mono.fromFuture(table.deleteItem(key)))
+                .map(FootballMatchDynamoMapper::toDomain);
     }
 
 }

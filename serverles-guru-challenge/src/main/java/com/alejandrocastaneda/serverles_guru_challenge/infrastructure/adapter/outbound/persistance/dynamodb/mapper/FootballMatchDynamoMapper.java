@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import com.alejandrocastaneda.serverles_guru_challenge.domain.entity.FootballMatch;
 import com.alejandrocastaneda.serverles_guru_challenge.infrastructure.adapter.outbound.persistance.dynamodb.entity.FootballMatchDynamoEntity;
-import com.alejandrocastaneda.serverles_guru_challenge.infrastructure.adapter.outbound.persistance.dynamodb.util.SKGenerator;
+import com.alejandrocastaneda.serverles_guru_challenge.application.util.MatchTittleGenerator;
 
 public final class FootballMatchDynamoMapper {
     private FootballMatchDynamoMapper() {
@@ -14,9 +14,7 @@ public final class FootballMatchDynamoMapper {
         FootballMatchDynamoEntity entity = new FootballMatchDynamoEntity();
 
         entity.setPk(UUID.randomUUID().toString());
-        entity.setSk(SKGenerator.generate(footballMatch.localTeam(), footballMatch.awayTeam(),
-                footballMatch.matchDate().toLocalDate().toString()));
-
+        entity.setSk(footballMatch.matchTittle());
         entity.setLocalTeam(footballMatch.localTeam());
         entity.setLocalTeamImageUrl(footballMatch.localTeamImageUrl());
         entity.setAwayTeam(footballMatch.awayTeam());
@@ -36,6 +34,7 @@ public final class FootballMatchDynamoMapper {
         }
 
         return new FootballMatch(
+                entity.getSk(),
                 entity.getLocalTeam(),
                 entity.getLocalTeamImageUrl(),
                 entity.getAwayTeam(),

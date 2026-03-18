@@ -32,6 +32,7 @@ class GetFootballMatchUseCaseTest {
     @Test
     void shouldReturnMappedDtoWhenMatchExists() {
         FootballMatch match = new FootballMatch(
+                "Local-FC-VS-Away-FC-AT-2024-01-01",
                 "Local FC",
                 "http://local.png",
                 "Away FC",
