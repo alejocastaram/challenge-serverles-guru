@@ -52,7 +52,7 @@ jobs:
           name: coverage-report
           path: serverles-guru-challenge/build/reports/jacoco
 
-  release-lambda-pipeline:
+  release-pipeline:
     if: startsWith(github.ref, 'refs/heads/release/')
     runs-on: ubuntu-latest
 
