@@ -36,6 +36,9 @@ dependencies {
 
 	implementation "software.amazon.awssdk:dynamodb"
 	implementation "software.amazon.awssdk:dynamodb-enhanced"
+
+	implementation 'org.springframework.cloud:spring-cloud-function-adapter-aws'
+	implementation 'org.springframework.cloud:spring-cloud-starter-function-web'
 }
 
 test {
@@ -86,3 +89,9 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 check.dependsOn jacocoTestCoverageVerification
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:2023.0.3"
+	}
+}
