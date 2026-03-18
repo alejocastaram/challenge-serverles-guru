@@ -1,0 +1,111 @@
+name: Java CI/CD
+
+on:
+  push:
+    branches:
+      - master
+      - feature/**
+  pull_request:
+    branches:
+      - master
+      - feature/**
+
+jobs:
+
+  feature-pipeline:
+    if: startsWith(github.ref, 'refs/heads/feature/')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+
+      - name: Dar permisos a gradlew
+        run: chmod +x gradlew
+        working-directory: serverles-guru-challenge
+
+      - name: Compilar y ejecutar tests
+        run: ./gradlew clean test
+        working-directory: serverles-guru-challenge
+
+      - name: Generar cobertura
+        run: ./gradlew jacocoTestReport
+        working-directory: serverles-guru-challenge
+
+      - name: Subir reporte de cobertura
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: serverles-guru-challenge/build/reports/jacoco
+
+  master-pipeline:
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+
+      - name: Permisos gradlew
+        run: chmod +x gradlew
+        working-directory: serverles-guru-challenge
+
+      - name: Build completo
+        run: ./gradlew clean build
+        working-directory: serverles-guru-challenge
+
+      - name: Generar cobertura
+        run: ./gradlew jacocoTestReport
+        working-directory: serverles-guru-challenge
+
+      - name: Guardar artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-jar
+            path: serverles-guru-challenge/build/libs/*.jar
+      - name: Copiar JAR a EC2
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ec2-user
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "serverles-guru-challenge/build/libs/*.jar"
+          target: "/home/ec2-user/"
+
+      - name: Ejecutar app en EC2
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ec2-user
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            pkill java || true
+            nohup java -jar /home/ec2-user/*.jar > app.log 2>&1 &
