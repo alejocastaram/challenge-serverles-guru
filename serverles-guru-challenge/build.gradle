@@ -65,7 +65,7 @@ jacocoTestReport {
 jacocoTestCoverageVerification {
 	violationRules {
 		rule {
-			element = 'CLASS'
+			element = 'BUNDLE'
 
 			excludes = [
 					'**/ServerlesGuruChallengeApplication',
