@@ -91,3 +91,21 @@ jobs:
         with:
           name: app-jar
             path: serverles-guru-challenge/build/libs/*.jar
+      - name: Copiar JAR a EC2
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ec2-user
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "serverles-guru-challenge/build/libs/*.jar"
+          target: "/home/ec2-user/"
+
+      - name: Ejecutar app en EC2
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ec2-user
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            pkill java || true
+            nohup java -jar /home/ec2-user/*.jar > app.log 2>&1 &

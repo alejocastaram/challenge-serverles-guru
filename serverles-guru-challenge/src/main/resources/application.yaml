@@ -3,7 +3,7 @@ spring:
     name: serverles-guru-challenge
   docker:
     compose:
-      file: serverles-guru-challenge/compose.yaml
+      enabled: false
   devtools:
     restart:
       enabled: false
