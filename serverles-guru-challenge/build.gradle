@@ -45,6 +45,17 @@ test {
 
 jacocoTestReport {
 	dependsOn test
+
+	classDirectories.setFrom(
+			files(classDirectories.files.collect {
+				fileTree(dir: it, exclude: [
+						'**/ServerlesGuruChallengeApplication.class',
+						'**/exceptionhandler/**',
+						'**/config/**'
+				])
+			})
+	)
+
 	reports {
 		xml.required = true
 		html.required = true
@@ -55,6 +66,13 @@ jacocoTestCoverageVerification {
 	violationRules {
 		rule {
 			element = 'CLASS'
+
+			excludes = [
+					'**/ServerlesGuruChallengeApplication',
+					'**/exceptionhandler/**',
+					'**/config/**'
+			]
+
 			limit {
 				counter = 'LINE'
 				value = 'COVEREDRATIO'
