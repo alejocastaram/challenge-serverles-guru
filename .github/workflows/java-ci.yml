@@ -113,11 +113,9 @@ jobs:
         run: serverless deploy
         working-directory: serverles-guru-challenge
 
-      - name: Debug estructura
+      - name: Ver contenido del JAR
         run: |
-          pwd
-          ls -la
-          ls -la build/libs
+          jar tf build/libs/serverles-guru-challenge-0.0.1-SNAPSHOT.jar | grep LambdaHandler
         working-directory: serverles-guru-challenge
 
   master-pipeline:
