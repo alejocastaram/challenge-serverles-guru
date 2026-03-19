@@ -100,7 +100,7 @@ jobs:
           node-version: 18
 
       - name: Instalar Serverless Framework
-        run: npm install -g serverless
+        run: npm install -g serverless@3
 
       - name: Configurar credenciales AWS
         uses: aws-actions/configure-aws-credentials@v4
