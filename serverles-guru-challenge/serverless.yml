@@ -7,40 +7,36 @@ provider:
 
 functions:
   createMatch:
-    handler: org.springframework.cloud.function.adapter.aws.FunctionInvoker
+    handler: com.alejandrocastaneda.serverles_guru_challenge.infrastructure.adapter.inbound.lambda.LambdaHandler
     environment:
       SPRING_CLOUD_FUNCTION_DEFINITION: createMatch
-      SPRING_CLOUD_FUNCTION_SCAN_PACKAGES: com.alejandrocastaneda.serverles_guru_challenge
     events:
       - http:
           path: api/football-match
           method: post
 
   getMatch:
-    handler: org.springframework.cloud.function.adapter.aws.FunctionInvoker
+    handler: com.alejandrocastaneda.serverles_guru_challenge.infrastructure.adapter.inbound.lambda.LambdaHandler
     environment:
       SPRING_CLOUD_FUNCTION_DEFINITION: getMatch
-      SPRING_CLOUD_FUNCTION_SCAN_PACKAGES: com.alejandrocastaneda.serverles_guru_challenge
     events:
       - http:
           path: api/football-match/{localTeam}/{awayTeam}/{matchDate}
           method: get
 
   updateScore:
-    handler: org.springframework.cloud.function.adapter.aws.FunctionInvoker
+    handler: com.alejandrocastaneda.serverles_guru_challenge.infrastructure.adapter.inbound.lambda.LambdaHandler
     environment:
       SPRING_CLOUD_FUNCTION_DEFINITION: updateScore
-      SPRING_CLOUD_FUNCTION_SCAN_PACKAGES: com.alejandrocastaneda.serverles_guru_challenge
     events:
       - http:
           path: api/football-match
           method: put
 
   deleteMatch:
-    handler: org.springframework.cloud.function.adapter.aws.FunctionInvoker
+    handler: com.alejandrocastaneda.serverles_guru_challenge.infrastructure.adapter.inbound.lambda.LambdaHandler
     environment:
       SPRING_CLOUD_FUNCTION_DEFINITION: deleteMatch
-      SPRING_CLOUD_FUNCTION_SCAN_PACKAGES: com.alejandrocastaneda.serverles_guru_challenge
     events:
       - http:
           path: api/football-match
