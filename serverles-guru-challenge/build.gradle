@@ -114,6 +114,10 @@ shadowJar {
 	append 'META-INF/spring.schemas'
 	append 'META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports'
 	append 'META-INF/spring/org.springframework.boot.actuate.autoconfigure.web.ManagementContextConfiguration.imports'
+	manifest {
+		attributes 'Main-Class': 'com.alejandrocastaneda.serverles_guru_challenge.ServerlesGuruChallengeApplication'
+		attributes 'Start-Class': 'com.alejandrocastaneda.serverles_guru_challenge.ServerlesGuruChallengeApplication'
+	}
 }
 
 assemble.dependsOn shadowJar
