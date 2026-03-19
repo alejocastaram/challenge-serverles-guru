@@ -3,6 +3,7 @@ plugins {
 	id 'org.springframework.boot' version '3.2.5'
 	id 'io.spring.dependency-management' version '1.1.7'
 	id 'jacoco'
+	id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 group = 'com.alejandrocastaneda'
@@ -99,6 +100,18 @@ dependencyManagement {
 }
 
 bootJar {
+	enabled = false
+}
+
+jar {
 	enabled = true
+}
+
+shadowJar {
 	archiveFileName = 'app.jar'
+	mergeServiceFiles()
+	append 'META-INF/spring.handlers'
+	append 'META-INF/spring.schemas'
+	append 'META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports'
+	append 'META-INF/spring/org.springframework.boot.actuate.autoconfigure.web.ManagementContextConfiguration.imports'
 }
