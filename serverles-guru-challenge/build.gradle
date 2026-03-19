@@ -99,21 +99,6 @@ dependencyManagement {
 }
 
 bootJar {
-	enabled = false
-}
-
-jar {
 	enabled = true
 	archiveFileName = 'app.jar'
-	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-
-	from {
-		configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-	}
-
-	manifest {
-		attributes(
-				'Main-Class': 'com.alejandrocastaneda.serverles_guru_challenge.ServerlesGuruChallengeApplication'
-		)
-	}
 }
