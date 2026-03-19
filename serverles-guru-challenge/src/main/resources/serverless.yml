@@ -7,39 +7,39 @@ provider:
 
 functions:
   createMatch:
-    handler: com.alejandrocastaneda.serverles_guru_challenge.infrastructure.adapter.inbound.lambda.LambdaHandler::handleRequest
+    handler: com.alejandrocastaneda.serverles_guru_challenge.infrastructure.adapter.inbound.lambda.LambdaHandler
     environment:
       SPRING_CLOUD_FUNCTION_DEFINITION: createMatch
     events:
       - http:
-          path: football-match
+          path: api/football-match
           method: post
 
   getMatch:
-    handler: com.alejandrocastaneda.serverles_guru_challenge.infrastructure.adapter.inbound.lambda.LambdaHandler::handleRequest
+    handler: com.alejandrocastaneda.serverles_guru_challenge.infrastructure.adapter.inbound.lambda.LambdaHandler
     environment:
       SPRING_CLOUD_FUNCTION_DEFINITION: getMatch
     events:
       - http:
-          path: football-match/{localTeam}/{awayTeam}/{matchDate}
+          path: api/football-match/{localTeam}/{awayTeam}/{matchDate}
           method: get
 
   updateScore:
-    handler: com.alejandrocastaneda.serverles_guru_challenge.infrastructure.adapter.inbound.lambda.LambdaHandler::handleRequest
+    handler: com.alejandrocastaneda.serverles_guru_challenge.infrastructure.adapter.inbound.lambda.LambdaHandler
     environment:
       SPRING_CLOUD_FUNCTION_DEFINITION: updateScore
     events:
       - http:
-          path: football-match
+          path: api/football-match
           method: put
 
   deleteMatch:
-    handler: com.alejandrocastaneda.serverles_guru_challenge.infrastructure.adapter.inbound.lambda.LambdaHandler::handleRequest
+    handler: com.alejandrocastaneda.serverles_guru_challenge.infrastructure.adapter.inbound.lambda.LambdaHandler
     environment:
       SPRING_CLOUD_FUNCTION_DEFINITION: deleteMatch
     events:
       - http:
-          path: football-match
+          path: api/football-match
           method: delete
 
 package:
