@@ -104,7 +104,7 @@ bootJar {
 }
 
 jar {
-	enabled = true
+	enabled = false
 }
 
 shadowJar {
@@ -115,3 +115,5 @@ shadowJar {
 	append 'META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports'
 	append 'META-INF/spring/org.springframework.boot.actuate.autoconfigure.web.ManagementContextConfiguration.imports'
 }
+
+assemble.dependsOn shadowJar
