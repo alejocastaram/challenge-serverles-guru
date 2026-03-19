@@ -43,4 +43,4 @@ functions:
           method: delete
 
 package:
-  artifact: ../../../build/libs/serverles-guru-challenge-0.0.1-SNAPSHOT.jar
+  artifact: build/libs/serverles-guru-challenge-0.0.1-SNAPSHOT.jar
