@@ -5,7 +5,6 @@ import com.alejandrocastaneda.serverles_guru_challenge.application.mapper.Footba
 import com.alejandrocastaneda.serverles_guru_challenge.application.port.out.repository.FootballMatchRepository;
 import com.alejandrocastaneda.serverles_guru_challenge.infrastructure.dto.FootballMatchDTO;
 import com.alejandrocastaneda.serverles_guru_challenge.infrastructure.dto.UpdateScoreRequestDTO;
-import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -37,7 +36,7 @@ public class UpdateScoreUseCase {
 
     }
 
-    private static @NonNull Predicate<UpdateScoreRequestDTO> validationScorerTeamPredicate() {
+    private static Predicate<UpdateScoreRequestDTO> validationScorerTeamPredicate() {
         return dto -> dto.getLocalTeam().equals(dto.getScorerTeam()) || dto.getAwayTeam().equals(dto.getScorerTeam());
     }
 }
