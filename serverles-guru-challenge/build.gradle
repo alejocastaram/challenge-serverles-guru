@@ -37,6 +37,7 @@ dependencies {
 	implementation "software.amazon.awssdk:dynamodb"
 	implementation "software.amazon.awssdk:dynamodb-enhanced"
 
+	implementation 'org.springframework.cloud:spring-cloud-function-context'
 	implementation 'org.springframework.cloud:spring-cloud-function-adapter-aws'
 	implementation 'com.amazonaws:aws-lambda-java-core:1.2.3'
 	
