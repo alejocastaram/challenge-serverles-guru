@@ -14,6 +14,7 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import reactor.core.publisher.Mono;
 
 import java.util.Map;
 import java.util.function.Function;
@@ -41,60 +42,48 @@ public class FootballMatchFunctions {
     }
 
     @Bean
-    public Function<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> createMatch() {
-        return request -> {
-            try {
-                CreateMatchRequestDTO dto = objectMapper.readValue(request.getBody(), CreateMatchRequestDTO.class);
-                createFootballMatchUseCase.execute(dto).block();
-                return response(201, "{\"message\":\"Match created\"}");
-            } catch (Exception e) {
-                return handleError(e);
-            }
-        };
+    public Function<Mono<APIGatewayProxyRequestEvent>, Mono<APIGatewayProxyResponseEvent>> createMatch() {
+        return requestMono -> requestMono
+                .flatMap(request -> Mono.fromCallable(
+                        () -> objectMapper.readValue(request.getBody(), CreateMatchRequestDTO.class)))
+                .flatMap(createFootballMatchUseCase::execute)
+                .thenReturn(response(201, "{\"message\":\"Match created\"}"))
+                .onErrorResume(e -> Mono.just(handleError(e)));
     }
 
     @Bean
-    public Function<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> getMatch() {
-        return request -> {
-            try {
-                Map<String, String> params = request.getPathParameters();
-                FootballMatchDTO dto = getFootballMatchUseCase
-                        .execute(params.get("localTeam"), params.get("awayTeam"), params.get("matchDate"))
-                        .block();
-                return response(200, objectMapper.writeValueAsString(dto));
-            } catch (Exception e) {
-                return handleError(e);
-            }
-        };
+    public Function<Mono<APIGatewayProxyRequestEvent>, Mono<APIGatewayProxyResponseEvent>> getMatch() {
+        return requestMono -> requestMono
+                .flatMap(request -> {
+                    Map<String, String> params = request.getPathParameters();
+                    return getFootballMatchUseCase.execute(
+                            params.get("localTeam"), params.get("awayTeam"), params.get("matchDate"));
+                })
+                .flatMap(dto -> Mono.fromCallable(() -> response(200, objectMapper.writeValueAsString(dto))))
+                .onErrorResume(e -> Mono.just(handleError(e)));
     }
 
     @Bean
-    public Function<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> updateScore() {
-        return request -> {
-            try {
-                UpdateScoreRequestDTO dto = objectMapper.readValue(request.getBody(), UpdateScoreRequestDTO.class);
-                FootballMatchDTO result = updateScoreUseCase.execute(dto).block();
-                return response(200, objectMapper.writeValueAsString(result));
-            } catch (Exception e) {
-                return handleError(e);
-            }
-        };
+    public Function<Mono<APIGatewayProxyRequestEvent>, Mono<APIGatewayProxyResponseEvent>> updateScore() {
+        return requestMono -> requestMono
+                .flatMap(request -> Mono.fromCallable(
+                        () -> objectMapper.readValue(request.getBody(), UpdateScoreRequestDTO.class)))
+                .flatMap(updateScoreUseCase::execute)
+                .flatMap(result -> Mono.fromCallable(() -> response(200, objectMapper.writeValueAsString(result))))
+                .onErrorResume(e -> Mono.just(handleError(e)));
     }
 
     @Bean
-    public Function<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> deleteMatch() {
-        return request -> {
-            try {
-                DeleteMatchRequestDTO dto = objectMapper.readValue(request.getBody(), DeleteMatchRequestDTO.class);
-                deleteFootballMatchUseCase.execute(dto).block();
-                return response(200, "{\"message\":\"Match deleted\"}");
-            } catch (Exception e) {
-                return handleError(e);
-            }
-        };
+    public Function<Mono<APIGatewayProxyRequestEvent>, Mono<APIGatewayProxyResponseEvent>> deleteMatch() {
+        return requestMono -> requestMono
+                .flatMap(request -> Mono.fromCallable(
+                        () -> objectMapper.readValue(request.getBody(), DeleteMatchRequestDTO.class)))
+                .flatMap(deleteFootballMatchUseCase::execute)
+                .thenReturn(response(200, "{\"message\":\"Match deleted\"}"))
+                .onErrorResume(e -> Mono.just(handleError(e)));
     }
 
-    private APIGatewayProxyResponseEvent handleError(Exception e) {
+    private APIGatewayProxyResponseEvent handleError(Throwable e) {
         Throwable cause = e.getCause() != null ? e.getCause() : e;
         int status = cause instanceof BusinessException ? 400 : 500;
         return response(status, "{\"error\":\"" + cause.getMessage() + "\"}");
