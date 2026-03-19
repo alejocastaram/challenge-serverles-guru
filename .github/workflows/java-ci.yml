@@ -111,7 +111,7 @@ jobs:
 
       - name: Deploy a AWS (Lambda + API Gateway)
         run: serverless deploy
-        working-directory: serverles-guru-challenge/src/resources
+        working-directory: serverles-guru-challenge/src/main/resources
 
   master-pipeline:
     if: github.ref == 'refs/heads/master'
