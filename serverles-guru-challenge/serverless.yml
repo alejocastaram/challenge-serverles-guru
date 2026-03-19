@@ -4,6 +4,19 @@ provider:
   name: aws
   runtime: java17
   region: us-east-2
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource:
+            - arn:aws:dynamodb:us-east-2:362437995623:table/football-match
+            - arn:aws:dynamodb:us-east-2:362437995623:table/football-match/index/*
 
 functions:
   createMatch:
