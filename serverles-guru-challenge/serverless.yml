@@ -10,7 +10,7 @@ functions:
     handler: org.springframework.cloud.function.adapter.aws.FunctionInvoker
     environment:
       SPRING_CLOUD_FUNCTION_DEFINITION: createMatch
-      MAIN_CLASS: com.alejandrocastaneda.serverles_guru_challenge.ServerlesGuruChallengeApplication
+      SPRING_CLOUD_FUNCTION_SCAN_PACKAGES: com.alejandrocastaneda.serverles_guru_challenge
     events:
       - http:
           path: api/football-match
@@ -20,7 +20,7 @@ functions:
     handler: org.springframework.cloud.function.adapter.aws.FunctionInvoker
     environment:
       SPRING_CLOUD_FUNCTION_DEFINITION: getMatch
-      MAIN_CLASS: com.alejandrocastaneda.serverles_guru_challenge.ServerlesGuruChallengeApplication
+      SPRING_CLOUD_FUNCTION_SCAN_PACKAGES: com.alejandrocastaneda.serverles_guru_challenge
     events:
       - http:
           path: api/football-match/{localTeam}/{awayTeam}/{matchDate}
@@ -30,7 +30,7 @@ functions:
     handler: org.springframework.cloud.function.adapter.aws.FunctionInvoker
     environment:
       SPRING_CLOUD_FUNCTION_DEFINITION: updateScore
-      MAIN_CLASS: com.alejandrocastaneda.serverles_guru_challenge.ServerlesGuruChallengeApplication
+      SPRING_CLOUD_FUNCTION_SCAN_PACKAGES: com.alejandrocastaneda.serverles_guru_challenge
     events:
       - http:
           path: api/football-match
@@ -40,7 +40,7 @@ functions:
     handler: org.springframework.cloud.function.adapter.aws.FunctionInvoker
     environment:
       SPRING_CLOUD_FUNCTION_DEFINITION: deleteMatch
-      MAIN_CLASS: com.alejandrocastaneda.serverles_guru_challenge.ServerlesGuruChallengeApplication
+      SPRING_CLOUD_FUNCTION_SCAN_PACKAGES: com.alejandrocastaneda.serverles_guru_challenge
     events:
       - http:
           path: api/football-match
