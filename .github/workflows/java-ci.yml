@@ -113,6 +113,11 @@ jobs:
         run: serverless deploy
         working-directory: serverles-guru-challenge
 
+      - name: Verificar FunctionInvoker en JAR
+        run: |
+          jar tf build/libs/app.jar | grep FunctionInvoker || echo "NO EXISTE"
+        working-directory: serverles-guru-challenge
+
   master-pipeline:
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
