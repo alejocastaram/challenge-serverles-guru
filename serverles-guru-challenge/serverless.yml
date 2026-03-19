@@ -5,6 +5,14 @@ provider:
   runtime: java17
   region: us-east-2
 
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:*
+          Resource: "*"
+
 functions:
   createMatch:
     handler: org.springframework.cloud.function.adapter.aws.FunctionInvoker
