@@ -115,7 +115,7 @@ jobs:
 
       - name: Verificar FunctionInvoker en JAR
         run: |
-          jar tf build/libs/app.jar | grep FunctionInvoker || echo "NO EXISTE"
+          jar tf build/libs/app.jar | grep LambdaHandler || echo "NO EXISTE"
         working-directory: serverles-guru-challenge
 
   master-pipeline:
