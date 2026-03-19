@@ -113,6 +113,13 @@ jobs:
         run: serverless deploy
         working-directory: serverles-guru-challenge
 
+      - name: Debug estructura
+        run: |
+          pwd
+          ls -la
+          ls -la build/libs
+        working-directory: serverles-guru-challenge
+
   master-pipeline:
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
