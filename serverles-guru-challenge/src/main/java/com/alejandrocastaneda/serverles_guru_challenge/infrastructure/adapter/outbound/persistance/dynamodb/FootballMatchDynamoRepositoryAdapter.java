@@ -5,6 +5,8 @@ import com.alejandrocastaneda.serverles_guru_challenge.domain.entity.FootballMat
 import com.alejandrocastaneda.serverles_guru_challenge.infrastructure.adapter.outbound.persistance.dynamodb.entity.FootballMatchDynamoEntity;
 import com.alejandrocastaneda.serverles_guru_challenge.infrastructure.adapter.outbound.persistance.dynamodb.mapper.FootballMatchDynamoMapper;
 import com.alejandrocastaneda.serverles_guru_challenge.application.util.MatchTittleGenerator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -16,6 +18,7 @@ import software.amazon.awssdk.services.dynamodb.DynamoDbAsyncClient;
 @Repository
 public class FootballMatchDynamoRepositoryAdapter implements FootballMatchRepository {
     private static final String INDEX = "matchId-index";
+    private static final Logger logger = LoggerFactory.getLogger(FootballMatchDynamoRepositoryAdapter.class);
     private final DynamoDbAsyncTable<FootballMatchDynamoEntity> table;
 
     public FootballMatchDynamoRepositoryAdapter(DynamoDbAsyncClient client) {
@@ -52,6 +55,7 @@ public class FootballMatchDynamoRepositoryAdapter implements FootballMatchReposi
 
     private  QueryConditional getQuery (String localTeam, String awayTeam, String matchDate) {
         String sk = MatchTittleGenerator.generate(localTeam, awayTeam, matchDate);
+        logger.info("this is the match tittle: {}", sk);
 
         return QueryConditional
                 .keyEqualTo(Key.builder()

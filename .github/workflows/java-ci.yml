@@ -5,10 +5,12 @@ on:
     branches:
       - master
       - feature/**
+      - release/**
   pull_request:
     branches:
       - master
       - feature/**
+      - release/**
 
 jobs:
 
@@ -51,6 +53,70 @@ jobs:
         with:
           name: coverage-report
           path: serverles-guru-challenge/build/reports/jacoco
+
+  release-pipeline:
+    if: startsWith(github.ref, 'refs/heads/release/')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+
+      - name: Permisos gradlew
+        run: chmod +x gradlew
+        working-directory: serverles-guru-challenge
+
+      - name: Build completo
+        run: ./gradlew clean build
+        working-directory: serverles-guru-challenge
+
+      - name: Generar cobertura
+        run: ./gradlew jacocoTestReport
+        working-directory: serverles-guru-challenge
+
+      - name: Guardar artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-jar
+          path: serverles-guru-challenge/build/libs/*.jar
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Instalar Serverless Framework
+        run: npm install -g serverless@3
+
+      - name: Configurar credenciales AWS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+
+      - name: Deploy a AWS (Lambda + API Gateway)
+        run: serverless deploy
+        working-directory: serverles-guru-challenge
+
+      - name: Verificar FunctionInvoker en JAR
+        run: |
+          jar tf build/libs/app.jar | grep LambdaHandler || echo "NO EXISTE"
+        working-directory: serverles-guru-challenge
 
   master-pipeline:
     if: github.ref == 'refs/heads/master'

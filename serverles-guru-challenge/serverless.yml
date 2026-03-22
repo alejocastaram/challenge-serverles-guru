@@ -1,0 +1,59 @@
+service: football-match-api
+
+provider:
+  name: aws
+  runtime: java17
+  region: us-east-2
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource:
+            - arn:aws:dynamodb:us-east-2:362437995623:table/football-match
+            - arn:aws:dynamodb:us-east-2:362437995623:table/football-match/index/*
+
+functions:
+  createMatch:
+    handler: com.alejandrocastaneda.serverles_guru_challenge.infrastructure.adapter.inbound.lambda.LambdaHandler
+    environment:
+      SPRING_CLOUD_FUNCTION_DEFINITION: createMatch
+    events:
+      - http:
+          path: api/football-match
+          method: post
+
+  getMatch:
+    handler: com.alejandrocastaneda.serverles_guru_challenge.infrastructure.adapter.inbound.lambda.LambdaHandler
+    environment:
+      SPRING_CLOUD_FUNCTION_DEFINITION: getMatch
+    events:
+      - http:
+          path: api/football-match/{localTeam}/{awayTeam}/{matchDate}
+          method: get
+
+  updateScore:
+    handler: com.alejandrocastaneda.serverles_guru_challenge.infrastructure.adapter.inbound.lambda.LambdaHandler
+    environment:
+      SPRING_CLOUD_FUNCTION_DEFINITION: updateScore
+    events:
+      - http:
+          path: api/football-match
+          method: put
+
+  deleteMatch:
+    handler: com.alejandrocastaneda.serverles_guru_challenge.infrastructure.adapter.inbound.lambda.LambdaHandler
+    environment:
+      SPRING_CLOUD_FUNCTION_DEFINITION: deleteMatch
+    events:
+      - http:
+          path: api/football-match
+          method: delete
+
+package:
+  artifact: build/libs/app.jar
