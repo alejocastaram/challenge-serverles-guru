@@ -16,6 +16,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import reactor.core.publisher.Mono;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -56,8 +58,11 @@ public class FootballMatchFunctions {
         return requestMono -> requestMono
                 .flatMap(request -> {
                     Map<String, String> params = request.getPathParameters();
-                    return getFootballMatchUseCase.execute(
-                            params.get("localTeam"), params.get("awayTeam"), params.get("matchDate"));
+                    String localTeamDecoded = URLDecoder.decode(params.get("localTeam"), StandardCharsets.UTF_8);
+                    String awayTeamDecoded = URLDecoder.decode(params.get("awayTeam"), StandardCharsets.UTF_8);
+                    String matchDateDecoded = URLDecoder.decode(params.get("matchDate"), StandardCharsets.UTF_8);
+                    return getFootballMatchUseCase.execute(localTeamDecoded, awayTeamDecoded,
+                            matchDateDecoded);
                 })
                 .flatMap(dto -> Mono.fromCallable(() -> response(200, objectMapper.writeValueAsString(dto))))
                 .onErrorResume(e -> Mono.just(handleError(e)));
